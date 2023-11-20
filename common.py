@@ -18,3 +18,15 @@ def read_text_files_from_folder(folder_path):
             text_data.append(file_content)
 
     return text_data
+
+
+def power_mod_n(x, y, mod_n):
+    temp = 0
+    if(y == 0):
+        return 1
+    
+    temp = power_mod_n(x, int(y // 2), mod_n)
+    if y % 2 == 0:
+        return (temp * temp) % mod_n
+    else:
+        return (x * temp * temp) % mod_n
