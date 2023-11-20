@@ -1,4 +1,3 @@
-import struct 
 import os
 import zmq
 
@@ -16,17 +15,16 @@ socket.connect("tcp://localhost:8080")
 code_segments = read_text_files_from_folder("./alices-code/")
 
 # Choose 2 large primes 
-
 prime_one = number.getPrime(1024, os.urandom)
 prime_two = number.getPrime(1024, os.urandom)
 
 # Send each prime to Bob 
 print("Sending primes to Bob...")
-socket.send(prime_one.to_bytes((prime_one.bit_length() + 7) // 8, byteorder='big'))
-socket.send(prime_two.to_bytes((prime_one.bit_length() + 7) // 8, byteorder='big'))
+socket.send_string(str(prime_one))
+assert(int(socket.recv_string()) == 1)
+socket.send_string(str(prime_two))
+assert(int(socket.recv_string()) == 1)
 
-
-struct.un
 
 # Iterate through each code segment and send the transformed segment to Bob
 # for i, code_file in enumerate(code_segments):

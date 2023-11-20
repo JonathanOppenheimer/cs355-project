@@ -1,4 +1,3 @@
-import struct
 import zmq
 
 from common import read_text_files_from_folder
@@ -14,8 +13,10 @@ socket.bind("tcp://*:8080")
 code_segments = read_text_files_from_folder("./bobs-code/")
 
 # Recieve primes from Alice 
-prime_one = int.from_bytes(socket.recv(), byteorder='big')
-prime_two = int.from_bytes(socket.recv(), byteorder='big')
+prime_one = int(socket.recv_string())
+socket.send_string(str(1))
+prime_two = int(socket.recv_string())
+socket.send_string(str(1))
 print("Recieved Alice's primes!")
 
 # while True:
