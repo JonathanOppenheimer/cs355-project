@@ -54,7 +54,7 @@ for encryption in alice_message_alice_encryption:
 random.shuffle(ab_double_encryptions) # Shuffle
 
 # Recieve double encryptions from Alice
-ba_double_encryptions = [] # Bob's Mmssages encrypted with Bob's key, then Alice's key
+ba_double_encryptions = [] # Bob's messages encrypted with Bob's key, then Alice's key
 for i in range(5):
     ba_double_encryptions.append(socket.recv())
     socket.send_string(str(1)) # Confirm reciept 
@@ -68,3 +68,14 @@ for index, encryption in enumerate(ab_double_encryptions, start=1):
     assert(int(socket.recv_string()) == 1)
     print(f"Sent double encryption #{index}")
 socket.send_string("End of double encryptions.")
+
+# Decrypt Bob's messages encrypted by Bob then Aliice with Bobs's Key
+print("(10) Decrypting Bob-Alice double encryptions with Bobs's key...")
+bob_message_alice_encryption = []
+for encryption in ba_double_encryptions:
+    bob_message_alice_encryption.append(exor(encryption, bob_key))
+
+# Compute the intersection between Bobs's messages encrypted with Alice's key, and Alice's messages encrypted with Alice's key
+print("(11) Computing cardinality of the intersection...")
+cardinality = len(set(bob_message_alice_encryption).intersection(set(alice_message_alice_encryption)))
+print(f"Alice and Bob have {cardinality} code segments in common.")

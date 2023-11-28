@@ -75,7 +75,6 @@ alice_message_bob_encryption = []
 for encryption in ab_double_encryptions:
     alice_message_bob_encryption.append(exor(encryption, alice_key))
 
-
 # Compute the intersection between Alice's messages encrypted with Bob's key, and Bob's messages encrypted with Bob's key
 print("(11) Computing cardinality of the intersection...")
 cardinality = len(set(alice_message_bob_encryption).intersection(set(bob_message_bob_encryption)))
