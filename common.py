@@ -1,32 +1,56 @@
+import hashlib
+import numpy as np
 import os
 
-def read_text_files_from_folder(folder_path):
-    # Get a list of files in the folder
-    files = os.listdir(folder_path)
 
-    # Filter only text files
-    text_files = [file for file in files if file.endswith(".txt")]
-
-    # Initialize an array to store the contents of the text files
-    text_data = []
-
-    # Read each text file and append its content to the array
-    for file_name in text_files:
-        file_path = os.path.join(folder_path, file_name)
-        with open(file_path, 'rb') as file:
-            file_content = file.read()
-            text_data.append(file_content)
-
-    return text_data
-
-
-def power_mod_n(x, y, mod_n):
-    temp = 0
-    if(y == 0):
-        return 1
+def get_file_paths(folder_path):
+    file_paths = []
     
-    temp = power_mod_n(x, int(y // 2), mod_n)
-    if y % 2 == 0:
-        return (temp * temp) % mod_n
-    else:
-        return (x * temp * temp) % mod_n
+    # Walk through the directory and get all file paths
+    for foldername, subfolders, filenames in os.walk(folder_path):
+        for filename in filenames:
+            file_paths.append(os.path.join(foldername, filename))
+    
+    return file_paths
+
+def exor(v1, v2):
+    a = np.frombuffer(v1, dtype = np.uint8)
+    b = np.frombuffer(v2, dtype = np.uint8)
+    re=(a^b).tobytes()
+    return(re)
+
+def sha256_hash(data):
+    sha256 = hashlib.sha256()
+    sha256.update(data)
+    return sha256.digest()
+
+def calculate_ed2k_hash(file_path):
+    chunk_size = 9728000
+
+    with open(file_path, 'rb') as file:
+        file_size = os.path.getsize(file_path)
+        hash_list = []
+
+        if file_size <= chunk_size:
+            # For files with one chunk or less
+            file_data = file.read()
+            return sha256_hash(file_data)
+
+        while True:
+            chunk = file.read(chunk_size)
+            if not chunk:
+                break
+
+            hash_list.append(sha256_hash(chunk))
+
+        if file_size % chunk_size == 0:
+            # If file size is a multiple of chunk size, add hash of null
+            hash_list.append(sha256_hash(b''))
+
+        # Concatenate the hash values and calculate the final SHA-256 hash
+        concatenated_hash = b''.join(hash_list)
+        ed2k_hash = sha256_hash(concatenated_hash)
+
+        return ed2k_hash
+
+
