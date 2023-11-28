@@ -6,7 +6,6 @@ import zmq
 
 # Get a list of Alice's files
 file_paths = get_file_paths("./alices-code/")
-print(file_paths)
 
 # Create the list of file hashes for Alice's file
 print("(1) Hashing files...")
@@ -75,6 +74,7 @@ print("(10) Decrypting Alice-Bob double encryptions with Alice's key...")
 alice_message_bob_encryption = []
 for encryption in ab_double_encryptions:
     alice_message_bob_encryption.append(exor(encryption, alice_key))
+
 
 # Compute the intersection between Alice's messages encrypted with Bob's key, and Bob's messages encrypted with Bob's key
 print("(11) Computing cardinality of the intersection...")

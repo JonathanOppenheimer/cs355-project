@@ -6,7 +6,6 @@ import zmq
 
 # Get a list of Bob's files
 file_paths = get_file_paths("./bobs-code/")
-print(file_paths)
 
 # Create the list of file hashes for Bob's file
 print("(1) Hashing files...")
@@ -64,7 +63,7 @@ print(("(8) Bob-Alice double encryptions recieved!"))
 
 # Send double encryptions to Alice 
 print("(9) Sending Alice-Bob double encryptions to Alice...")
-for index, encryption in enumerate(ba_double_encryptions, start=1):
+for index, encryption in enumerate(ab_double_encryptions, start=1):
     socket.send(encryption)
     assert(int(socket.recv_string()) == 1)
     print(f"Sent double encryption #{index}")
