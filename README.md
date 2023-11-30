@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 ## Testing 
 
-To test our solution, open two terminal windows. Run `python bob.py` first in one, and then `python alice.py` in the other. Our protocol will then be executed. Feel free to place around with the code segments available in [alices-code](./alices-code/) and [bobs-code](./bobs-code/). 
+To test our solution, open two terminal windows. Run `python bob.py` first in one, and then `python alice.py` in the other. Our protocol will then be executed. Feel free to play around with the code segments available in [alices-code](./alices-code/) and [bobs-code](./bobs-code/). 
 
 ## Further information
 
